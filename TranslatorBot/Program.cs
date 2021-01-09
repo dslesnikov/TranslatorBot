@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,8 @@ namespace TranslatorBot
 {
     public static class Program
     {
+        private const string DevConfigName = "local-dev.json";
+        
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -20,10 +23,11 @@ namespace TranslatorBot
             return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(builder =>
                 {
-                    foreach (var config in Directory.EnumerateFiles("config", "*.json"))
+                    foreach (var config in Directory.EnumerateFiles("config", "*.json").Where(name => !name.Contains(DevConfigName)))
                     {
                         builder.AddJsonFile(config, false, true);
                     }
+                    builder.AddJsonFile($"config/{DevConfigName}", false, true);
                     builder.AddEnvironmentVariables();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
