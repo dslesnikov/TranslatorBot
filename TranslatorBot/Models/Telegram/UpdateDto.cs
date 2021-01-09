@@ -1,4 +1,4 @@
-﻿namespace TranslatorBot.Models
+﻿namespace TranslatorBot.Models.Telegram
 {
     public record UpdateDto(
         int UpdateId,

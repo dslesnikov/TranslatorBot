@@ -1,0 +1,11 @@
+﻿{
+  "HostingOptions": {
+    "BotBaseAddress": "1.1.1.1",
+    "BotPort": 8443,
+    "Tls": {
+      "Enabled": true,
+      "CertFile": "certs/tls.pem",
+      "KeyFile": "certs/tls_key.pem"
+    }
+  }
+}

@@ -5,13 +5,17 @@ namespace TranslatorBot
 {
     public class SnakeCaseNamingPolicy : JsonNamingPolicy
     {
+        public static SnakeCaseNamingPolicy Policy { get; } = new();
+
+        private SnakeCaseNamingPolicy() {}
+
         public override string ConvertName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
                 return name;
             }
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(name.Length);
             var state = SeparatedCaseState.Start;
             for (var i = 0; i < name.Length; i++)
             {
@@ -27,10 +31,10 @@ namespace TranslatorBot
                     switch (state)
                     {
                         case SeparatedCaseState.Upper:
-                            bool hasNext = (i + 1 < name.Length);
+                            var hasNext = i + 1 < name.Length;
                             if (i > 0 && hasNext)
                             {
-                                char nextChar = name[i + 1];
+                                var nextChar = name[i + 1];
                                 if (!char.IsUpper(nextChar) && nextChar != '_')
                                 {
                                     sb.Append('_');
@@ -57,7 +61,6 @@ namespace TranslatorBot
                     {
                         sb.Append('_');
                     }
-
                     sb.Append(name[i]);
                     state = SeparatedCaseState.Lower;
                 }

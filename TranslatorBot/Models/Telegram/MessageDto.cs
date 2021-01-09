@@ -1,4 +1,4 @@
-﻿namespace TranslatorBot.Models
+﻿namespace TranslatorBot.Models.Telegram
 {
     public record MessageDto(
         int MessageId,
@@ -19,5 +19,5 @@
         string AuthorSignature,
         string Text,
         MessageEntityDto[] Entities
-        );
+    );
 }

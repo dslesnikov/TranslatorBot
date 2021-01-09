@@ -1,5 +1,6 @@
 ﻿{
   "YandexCloudOptions": {
-    "TranslationEndpoint": "translate.api.cloud.yandex.net:443"
+    "TranslationEndpoint": "https://translate.api.cloud.yandex.net:443",
+    "ApiToken": "token"
   }
 }

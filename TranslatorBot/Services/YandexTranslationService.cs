@@ -1,27 +1,47 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using TranslatorBot.Models.Options;
 using Yandex.Cloud.Ai.Translate.V2;
 
 namespace TranslatorBot.Services
 {
     public class YandexTranslationService : ITranslationService
     {
-        private readonly TranslationService.TranslationServiceClient _client;
+        private readonly IYandexApiClient _client;
+        private readonly IOptionsSnapshot<TranslationOptions> _translationConfig;
 
-        public YandexTranslationService(TranslationService.TranslationServiceClient client)
+        public YandexTranslationService(
+            IYandexApiClient client,
+            IOptionsSnapshot<TranslationOptions> translationConfig)
         {
             _client = client;
+            _translationConfig = translationConfig;
         }
 
         public async Task<string> TranslateAsync(string text)
         {
-            var request = new TranslateRequest
+            var languages = _translationConfig.Value.Languages;
+            var textToTranslate = text;
+            var detectLanguageResponse = await _client.DetectLanguageAsync(new DetectLanguageRequest
             {
-                Texts = {text},
-                SourceLanguageCode = "ru",
-                TargetLanguageCode = "en"
-            };
-            var result = await _client.TranslateAsync(request);
-            return result.Translations[0].Text;
+                Text = text
+            });
+            var sourceLanguage = detectLanguageResponse.LanguageCode;
+            foreach (var targetLanguage in languages.Append("ru"))
+            {
+                var request = new TranslateRequest
+                {
+                    Format = TranslateRequest.Types.Format.PlainText,
+                    SourceLanguageCode = sourceLanguage,
+                    TargetLanguageCode = targetLanguage,
+                    Texts = { textToTranslate }
+                };
+                var translationResponse = await _client.TranslateAsync(request);
+                textToTranslate = translationResponse.Translations[0].Text;
+                sourceLanguage = targetLanguage;
+            }
+            return textToTranslate;
         }
     }
 }

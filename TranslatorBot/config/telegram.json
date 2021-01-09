@@ -1,5 +1,7 @@
 ﻿{
   "TelegramOptions": {
-    "BotToken": "token"
+    "TelegramApiBaseUrl": "https://api.telegram.org",
+    "BotToken": "token",
+    "BotId": "@my_bot_id"
   }
 }
