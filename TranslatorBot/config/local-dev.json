@@ -1,0 +1,12 @@
+﻿{
+  "HostingOptions": {
+    "BotBaseAddress": "1.1.1.1"
+  },
+  "TelegramOptions": {
+    "BotToken": "token",
+    "BotId": "@my_bot_id"
+  },
+  "YandexCloudOptions": {
+    "ApiToken": "token"
+  }
+}
