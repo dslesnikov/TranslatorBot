@@ -29,4 +29,4 @@ jobs:
       - name: Start new container
         run: docker run -d --log-opt max-size=10m -p ${{ secrets.BOT_PORT }}:8443 -e HostingOptions__BotBaseAddress='${{ secrets.BOT_ADDRESS }}' -e HostingOptions__BotPort='${{ secrets.BOT_PORT }}' -e TelegramOptions__BotToken='${{ secrets.BOT_TOKEN }}' -e TelegramOptions__BotId='${{ secrets.BOT_ID }}' -e YandexCloudOptions__ApiToken='${{ secrets.YANDEX_API_TOKEN }}' -v bot-certs:/app/certs -v bot-certs:/app/config --name translator-bot ghcr.io/${{ github.repository_owner }}/translator_bot:latest
       - name: Delete obsolete images
-        run: docker rmi $(docker images --filter -q "dangling=true")
+        run: docker rmi $(docker images -q --filter "dangling=true")
