@@ -38,16 +38,17 @@ namespace TranslatorBot
                         new AuthenticationHeaderValue("Api-Key", yandexCloudOptions.ApiToken);
                 });
             });
-            services.AddHttpClient<ITelegramApiService, TelegramApiService>((sp, client) =>
-            {
-                var options = sp.GetRequiredService<IOptions<TelegramOptions>>();
-                client.BaseAddress = new Uri($"{options.Value.TelegramApiBaseUrl}/bot{options.Value.BotToken}/");
-            });
 
             services.AddScoped<ITranslationService, YandexTranslationService>();
             services.AddScoped<ITelegramApiService, TelegramApiService>();
             services.AddScoped<ITranslationBot, TranslationBot>();
             services.AddSingleton<IWebhookProcessor, WebhookProcessor>();
+
+            services.AddHttpClient<ITelegramApiService, TelegramApiService>((sp, client) =>
+            {
+                var options = sp.GetRequiredService<IOptions<TelegramOptions>>();
+                client.BaseAddress = new Uri($"{options.Value.TelegramApiBaseUrl}/bot{options.Value.BotToken}/");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
