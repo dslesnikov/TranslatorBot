@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TranslatorBot.Models.Options;
 using TranslatorBot.Models.Telegram;
 
-namespace TranslatorBot.Services
+namespace TranslatorBot.Services.Telegram
 {
     public class TranslationBot : ITranslationBot
     {
@@ -22,7 +23,7 @@ namespace TranslatorBot.Services
             _telegramOptions = telegramOptions;
         }
 
-        public async Task ProcessUpdate(UpdateDto dto)
+        public async Task ProcessUpdateAsync(UpdateDto dto)
         {
             string text = null;
             if (dto.Message.Chat.Type == "private" ||
@@ -40,7 +41,7 @@ namespace TranslatorBot.Services
             if (!string.IsNullOrEmpty(text) && text.Length <= 500)
             {
                 var translated = await _translationService.TranslateAsync(text);
-                await _telegramApi.SendMessage(dto.Message.Chat.Id, translated, dto.Message.MessageId);
+                await _telegramApi.SendMessageAsync(dto.Message.Chat.Id, translated, dto.Message.MessageId);
             }
         }
     }

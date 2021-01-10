@@ -1,18 +1,18 @@
 ﻿using Grpc.Core;
-using TranslatorBot.Services;
+using TranslatorBot.Services.Yandex;
 
-namespace TranslatorBot.Services
+namespace TranslatorBot.Services.Yandex
 {
     public interface IYandexApiClient
     {
-        AsyncUnaryCall<Yandex.Cloud.Ai.Translate.V2.TranslateResponse> TranslateAsync(
-            Yandex.Cloud.Ai.Translate.V2.TranslateRequest request,
+        AsyncUnaryCall<global::Yandex.Cloud.Ai.Translate.V2.TranslateResponse> TranslateAsync(
+            global::Yandex.Cloud.Ai.Translate.V2.TranslateRequest request,
             Metadata headers = null,
             System.DateTime? deadline = null,
             System.Threading.CancellationToken cancellationToken = default);
 
-        AsyncUnaryCall<Yandex.Cloud.Ai.Translate.V2.DetectLanguageResponse> DetectLanguageAsync(
-            Yandex.Cloud.Ai.Translate.V2.DetectLanguageRequest request,
+        AsyncUnaryCall<global::Yandex.Cloud.Ai.Translate.V2.DetectLanguageResponse> DetectLanguageAsync(
+            global::Yandex.Cloud.Ai.Translate.V2.DetectLanguageRequest request,
             Metadata headers = null,
             System.DateTime? deadline = null,
             System.Threading.CancellationToken cancellationToken = default);

@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace TranslatorBot
 {
-    public static class CertificateUtil
+    public static class CertificateUtils
     {
         public static X509Certificate2 GenerateAndSaveCertificate(string commonName, string certPath, string keyPath)
         {

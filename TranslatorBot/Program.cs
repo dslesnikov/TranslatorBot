@@ -41,7 +41,7 @@ namespace TranslatorBot
                             X509Certificate2 certificate;
                             if (!File.Exists(tlsOptions.CertFile) || !File.Exists(tlsOptions.KeyFile))
                             {
-                                certificate = CertificateUtil.GenerateAndSaveCertificate(
+                                certificate = CertificateUtils.GenerateAndSaveCertificate(
                                     hostingOptions.BotBaseAddress,
                                     tlsOptions.CertFile,
                                     tlsOptions.KeyFile);

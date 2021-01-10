@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using TranslatorBot.Models.Telegram;
 
-namespace TranslatorBot.Services
+namespace TranslatorBot.Services.Telegram
 {
     public interface ITranslationBot
     {
-        Task ProcessUpdate(UpdateDto dto);
+        Task ProcessUpdateAsync(UpdateDto dto);
     }
 }

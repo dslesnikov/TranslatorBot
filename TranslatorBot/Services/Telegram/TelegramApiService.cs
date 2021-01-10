@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TranslatorBot.Models.Options;
 
-namespace TranslatorBot.Services
+namespace TranslatorBot.Services.Telegram
 {
     public class TelegramApiService : ITelegramApiService
     {
@@ -23,7 +23,7 @@ namespace TranslatorBot.Services
             _hostingOptions = hostingOptions;
         }
 
-        public async Task SetWebhook()
+        public async Task SetWebhookAsync()
         {
             var telegramOptions = _telegramOptions.Value;
             var botToken = telegramOptions.BotToken;
@@ -38,7 +38,7 @@ namespace TranslatorBot.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task SendMessage(int chatId, string text, int replyToId)
+        public async Task SendMessageAsync(int chatId, string text, int replyToId)
         {
             var content = JsonContent.Create(new
             {

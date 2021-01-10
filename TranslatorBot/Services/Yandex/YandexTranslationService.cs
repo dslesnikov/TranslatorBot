@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using TranslatorBot.Models.Options;
 using Yandex.Cloud.Ai.Translate.V2;
 
-namespace TranslatorBot.Services
+namespace TranslatorBot.Services.Yandex
 {
     public class YandexTranslationService : ITranslationService
     {
