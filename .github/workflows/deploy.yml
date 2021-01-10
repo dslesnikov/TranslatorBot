@@ -1,0 +1,38 @@
+name: Build and push image
+
+on: workflow_dispatch
+
+jobs:
+  pull:
+    runs-on: ["self-hosted", "bot-host"]
+    steps:
+      - name: Login to Github Package Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Pull image
+        run: docker pull ghcr.io/${{ github.repository_owner }}/translator_bot:latest
+  run-container:
+    runs-on: ["self-hosted", "bot-host"]
+    needs: pull
+    steps:
+      - name: Stop running continer
+        run: docker stop translator-bot || true
+      - name: Create volumes
+        run: |
+          docker volume create bot-certs
+          docker volume create bot-config
+      - name: Start new container
+        run: docker run -it --log-opt max-size=10m \
+          -p ${{ secrets.BOT_PORT }}:8443 \
+          -e HostingOptions__BotBaseAddress=${{ secrets.BOT_ADDRESS }} \
+          -e HostingOptions__BotPort=${{ secrets.BOT_PORT }} \
+          -e TelegramOptions__BotToken=${{ secrets.BOT_TOKEN }} \
+          -e TelegramOptions__BotId=${{ secrets.BOT_ID }} \
+          -e YandexCloudOptions__ApiToken=${{ secrets.YANDEX_API_TOKEN }} \
+          -v bot-certs:/app/certs \
+          -v bot-certs:/app/config \
+          --name translator-bot \
+          ghcr.io/${{ github.repository_owner }}/translator_bot:latest
