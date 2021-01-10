@@ -5,6 +5,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o built
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0.1-buster-slim
+LABEL org.opencontainers.image.source=https://github.com/dslesnikov/TranslatorBot
 WORKDIR app
 COPY --from=build /src/built/ /app/
 VOLUME /app/certs
