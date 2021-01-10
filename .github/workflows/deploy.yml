@@ -25,7 +25,7 @@ jobs:
           docker volume create bot-certs
           docker volume create bot-config
       - name: Start new container
-        run: docker run -it --log-opt max-size=10m \
+        run: docker run --log-opt max-size=10m \
           -p ${{ secrets.BOT_PORT }}:8443 \
           -e HostingOptions__BotBaseAddress=${{ secrets.BOT_ADDRESS }} \
           -e HostingOptions__BotPort=${{ secrets.BOT_PORT }} \
