@@ -1,7 +1,7 @@
 ﻿namespace TranslatorBot.Models.Telegram
 {
     public record MessageDto(
-        int MessageId,
+        long MessageId,
         UserDto From,
         ChatDto SenderChat,
         int Date,

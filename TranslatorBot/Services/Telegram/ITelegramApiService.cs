@@ -6,6 +6,6 @@ namespace TranslatorBot.Services.Telegram
     {
         Task SetWebhookAsync();
 
-        Task SendMessageAsync(int chatId, string text, int replyToId);
+        Task SendMessageAsync(long chatId, string text, long replyToId);
     }
 }

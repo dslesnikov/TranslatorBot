@@ -38,7 +38,7 @@ namespace TranslatorBot.Services.Telegram
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task SendMessageAsync(int chatId, string text, int replyToId)
+        public async Task SendMessageAsync(long chatId, string text, long replyToId)
         {
             var content = JsonContent.Create(new
             {

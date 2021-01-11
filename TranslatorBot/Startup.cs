@@ -40,7 +40,6 @@ namespace TranslatorBot
             });
 
             services.AddScoped<ITranslationService, YandexTranslationService>();
-            services.AddScoped<ITelegramApiService, TelegramApiService>();
             services.AddScoped<ITranslationBot, TranslationBot>();
             services.AddSingleton<IWebhookProcessor, WebhookProcessor>();
 

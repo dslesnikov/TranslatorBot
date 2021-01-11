@@ -15,7 +15,7 @@ namespace TranslatorBot.Services.Telegram
         
         public async Task ProcessRequestAsync(HttpContext context)
         {
-            var update = await JsonSerializer.DeserializeAsync<UpdateDto>(context.Request.Body, SerializerOptions);
+            var update = await context.Request.ReadFromJsonAsync<UpdateDto>(SerializerOptions);
             var bot = context.RequestServices.GetRequiredService<ITranslationBot>();
             await bot.ProcessUpdateAsync(update);
             context.Response.StatusCode = 200;

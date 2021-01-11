@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TranslatorBot.Models.Options;
 using TranslatorBot.Models.Telegram;
@@ -25,14 +24,17 @@ namespace TranslatorBot.Services.Telegram
 
         public async Task ProcessUpdateAsync(UpdateDto dto)
         {
-            string text = null;
-            if (dto.Message.Chat.Type == "private" ||
-                dto.Message.Chat.Type == "group" && (dto.Message.Text?.Contains(BotId) ?? false))
+            var text = dto.Message.Chat.Type switch
             {
-                text = dto.Message.ReplyToMessage != null
+                "private" => dto.Message.ReplyToMessage != null
                     ? dto.Message.ReplyToMessage.Text
-                    : dto.Message.Text;
-            }
+                    : dto.Message.Text,
+                "group" or "supergroup" when dto.Message.Text?.Contains(BotId) ?? false => dto.Message.ReplyToMessage !=
+                    null
+                        ? dto.Message.ReplyToMessage.Text
+                        : dto.Message.Text,
+                _ => null
+            };
             if (string.IsNullOrEmpty(text))
             {
                 return;
