@@ -29,8 +29,8 @@ namespace TranslatorBot.Services.Telegram
                 "private" => dto.Message.ReplyToMessage != null
                     ? dto.Message.ReplyToMessage.Text
                     : dto.Message.Text,
-                "group" or "supergroup" when dto.Message.Text?.Contains(BotId) ?? false => dto.Message.ReplyToMessage !=
-                    null
+                "group" or "supergroup" when dto.Message.Text?.Contains(BotId) ?? false =>
+                    dto.Message.ReplyToMessage != null
                         ? dto.Message.ReplyToMessage.Text
                         : dto.Message.Text,
                 _ => null
@@ -40,7 +40,7 @@ namespace TranslatorBot.Services.Telegram
                 return;
             }
             text = text.Replace(BotId, string.Empty).Trim();
-            if (!string.IsNullOrEmpty(text) && text.Length <= 500)
+            if (!string.IsNullOrEmpty(text) && text.Length <= 1000)
             {
                 var translated = await _translationService.TranslateAsync(text);
                 await _telegramApi.SendMessageAsync(dto.Message.Chat.Id, translated, dto.Message.MessageId);
