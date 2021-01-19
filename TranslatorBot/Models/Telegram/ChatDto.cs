@@ -2,7 +2,7 @@
 {
     public record ChatDto(
         long Id,
-        string Type,
+        ChatType Type,
         string Title,
         string Username,
         string FirstName,

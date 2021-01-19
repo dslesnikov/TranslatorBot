@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TranslatorBot.Models.Options;
 using TranslatorBot.Models.Telegram;
@@ -24,17 +25,23 @@ namespace TranslatorBot.Services.Telegram
 
         public async Task ProcessUpdateAsync(UpdateDto dto)
         {
-            var text = dto.Message.Chat.Type switch
+            string text = null;
+            switch (dto.Message.Chat.Type)
             {
-                "private" => dto.Message.ReplyToMessage != null
-                    ? dto.Message.ReplyToMessage.Text
-                    : dto.Message.Text,
-                "group" or "supergroup" when dto.Message.Text?.Contains(BotId) ?? false =>
-                    dto.Message.ReplyToMessage != null
-                        ? dto.Message.ReplyToMessage.Text
-                        : dto.Message.Text,
-                _ => null
-            };
+                case ChatType.Private:
+                    text = dto.Message.Text;
+                    break;
+                case ChatType.Group:
+                case ChatType.SuperGroup:
+                    var messageMentionsBot = dto.Message.Entities
+                        .Any(e => e.Type == MessageEntityType.Mention &&
+                                  dto.Message.Text.Substring(e.Offset, e.Length) == BotId);
+                    if (messageMentionsBot)
+                    {
+                        text = dto.Message.ReplyToMessage?.Text ?? dto.Message.Text;
+                    }
+                    break;
+            }
             if (string.IsNullOrEmpty(text))
             {
                 return;

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,9 @@ namespace TranslatorBot.Services.Telegram
     {
         private static readonly JsonSerializerOptions SerializerOptions = new()
         {
-            PropertyNamingPolicy = SnakeCaseNamingPolicy.Policy
+            PropertyNamingPolicy = SnakeCaseNamingPolicy.Policy,
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
         };
         
         public async Task ProcessRequestAsync(HttpContext context)

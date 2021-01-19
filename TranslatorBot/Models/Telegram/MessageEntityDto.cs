@@ -1,7 +1,7 @@
 ﻿namespace TranslatorBot.Models.Telegram
 {
     public record MessageEntityDto(
-        string Type,
+        MessageEntityType Type,
         int Offset,
         int Length,
         string Url,
