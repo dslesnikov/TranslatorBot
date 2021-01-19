@@ -28,7 +28,7 @@ namespace TranslatorBot.Services.Yandex
                 Text = text
             });
             var sourceLanguage = detectLanguageResponse.LanguageCode;
-            foreach (var targetLanguage in languages.Append("ru"))
+            foreach (var targetLanguage in languages.Append(sourceLanguage))
             {
                 var request = new TranslateRequest
                 {
