@@ -33,9 +33,11 @@ namespace TranslatorBot.Services.Telegram
                     break;
                 case ChatType.Group:
                 case ChatType.SuperGroup:
-                    var messageMentionsBot = dto.Message.Entities
-                        .Any(e => e.Type == MessageEntityType.Mention &&
-                                  dto.Message.Text.Substring(e.Offset, e.Length) == BotId);
+                    var messageText = dto.Message.Text;
+                    var messageMentionsBot = dto.Message.Entities != null &&
+                                             dto.Message.Entities.Any(e =>
+                                                 e.Type == MessageEntityType.Mention &&
+                                                 messageText.Substring(e.Offset, e.Length) == BotId);
                     if (messageMentionsBot)
                     {
                         text = dto.Message.ReplyToMessage?.Text ?? dto.Message.Text;
