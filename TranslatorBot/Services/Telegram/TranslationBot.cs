@@ -32,7 +32,7 @@ namespace TranslatorBot.Services.Telegram
                     text = dto.Message.Text;
                     break;
                 case ChatType.Group:
-                case ChatType.SuperGroup:
+                case ChatType.Supergroup:
                     var messageText = dto.Message.Text;
                     var messageMentionsBot = dto.Message.Entities != null &&
                                              dto.Message.Entities.Any(e =>

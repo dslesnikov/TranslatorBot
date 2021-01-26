@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace TranslatorBot
+namespace TranslatorBot.Json
 {
     public class SnakeCaseNamingPolicy : JsonNamingPolicy
     {

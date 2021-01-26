@@ -2,6 +2,7 @@
 {
     public enum MessageEntityType
     {
-        Mention
+        Mention,
+        TextMention
     }
 }

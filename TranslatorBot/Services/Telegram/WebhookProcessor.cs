@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using TranslatorBot.Json;
 using TranslatorBot.Models.Telegram;
 
 namespace TranslatorBot.Services.Telegram
@@ -13,7 +13,7 @@ namespace TranslatorBot.Services.Telegram
         {
             PropertyNamingPolicy = SnakeCaseNamingPolicy.Policy,
             PropertyNameCaseInsensitive = true,
-            Converters = { new JsonStringEnumConverter() }
+            Converters = { new PolicyBasedJsonEnumConverter(SnakeCaseNamingPolicy.Policy) }
         };
         
         public async Task ProcessRequestAsync(HttpContext context)
